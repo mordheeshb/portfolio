@@ -47,7 +47,7 @@ if (cursor && follower) {
     followCursor();
 
     // Hover effects
-    document.querySelectorAll('a, button, .btn, input, textarea, .service-card, .project-row').forEach((el) => {
+    document.querySelectorAll('a, button, .btn, input, textarea, .expand-card, .project-row').forEach((el) => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('hover');
             follower.classList.add('hover');
@@ -253,7 +253,7 @@ animateCounters();
 
 // ── 10. Vanilla Tilt (3D tilt on service cards) ───────────
 if (typeof VanillaTilt !== 'undefined') {
-    VanillaTilt.init(document.querySelectorAll('.service-card[data-tilt]'), {
+    VanillaTilt.init(document.querySelectorAll('.expand-card[data-tilt]'), {
         max: 10,
         speed: 600,
         glare: true,
@@ -300,10 +300,10 @@ gsap.fromTo('.section-services .section-eyebrow, .section-services .section-titl
     }
 );
 
-gsap.fromTo('.service-card',
+gsap.fromTo('.expand-card',
     { y: 60, opacity: 0 },
     {
-        scrollTrigger: { trigger: '.services-grid', start: 'top 80%' },
+        scrollTrigger: { trigger: '.services-expand-container', start: 'top 80%' },
         y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out',
     }
 );
