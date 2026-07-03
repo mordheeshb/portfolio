@@ -34,27 +34,37 @@ if (cursor && follower) {
 
     document.addEventListener('mousemove', (e) => {
         curX = e.clientX; curY = e.clientY;
-        gsap.to(cursor, { x: curX, y: curY, duration: 0.1, ease: 'none' });
+        // The main dot should be nearly instant for responsiveness
+        gsap.to(cursor, { x: curX, y: curY, duration: 0.05, ease: 'power2.out' });
     });
 
-    // Follower lags behind for elegance
+    // Follower lags behind for a heavy, elegant premium feel
     function followCursor() {
-        folX += (curX - folX) * 0.1;
-        folY += (curY - folY) * 0.1;
+        // Lower lerp value (0.08) makes it trail slower and smoother
+        folX += (curX - folX) * 0.08;
+        folY += (curY - folY) * 0.08;
         gsap.set(follower, { x: folX, y: folY });
         requestAnimationFrame(followCursor);
     }
     followCursor();
 
-    // Hover effects
-    document.querySelectorAll('a, button, .btn, input, textarea, .expand-card, .project-row').forEach((el) => {
+    // Hover effects with Contextual Text
+    document.querySelectorAll('a, button, .btn, input, textarea, .project-row, [data-cursor-text]').forEach((el) => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('hover');
             follower.classList.add('hover');
+            
+            const text = el.getAttribute('data-cursor-text');
+            if (text) {
+                follower.classList.add('has-text');
+                follower.setAttribute('data-text', text);
+            }
         });
         el.addEventListener('mouseleave', () => {
             cursor.classList.remove('hover');
             follower.classList.remove('hover');
+            follower.classList.remove('has-text');
+            follower.removeAttribute('data-text');
         });
     });
 }
@@ -95,22 +105,22 @@ function runHeroAnimations() {
 
     tl.fromTo('#hero-eyebrow',
         { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8 }
+        { opacity: 1, y: 0, duration: 1 }
     )
     .fromTo('.hero-title .char-wrap',
-        { y: '110%' },
-        { y: '0%', duration: 1.2, stagger: 0.12, ease: 'expo.out' },
-        '-=0.4'
+        { y: '120%' },
+        { y: '0%', duration: 1.4, stagger: 0.15, ease: 'expo.out' },
+        '-=0.6'
     )
     .fromTo('#hero-desc',
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.9 },
-        '-=0.5'
+        { opacity: 1, y: 0, duration: 1 },
+        '-=0.8'
     )
     .fromTo('#hero-actions',
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.7 },
-        '-=0.4'
+        { opacity: 1, y: 0, duration: 0.8 },
+        '-=0.6'
     );
 }
 
@@ -251,6 +261,42 @@ function animateCounters() {
 
 animateCounters();
 
+// ── 10. GSAP Section Reveals & Parallax ───────────────────
+// Fade up and scale sections
+document.querySelectorAll('section').forEach((section) => {
+    // Skip hero since it has its own reveal
+    if (section.classList.contains('hero')) return;
+    
+    gsap.fromTo(section, 
+        { opacity: 0, y: 60, scale: 0.98 },
+        { 
+            opacity: 1, 
+            y: 0, 
+            scale: 1, 
+            duration: 1.2, 
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 85%',
+                once: true
+            }
+        }
+    );
+});
+
+// Image Parallax Effect
+document.querySelectorAll('.project-img-wrap img').forEach((img) => {
+    gsap.to(img, {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: img.parentElement,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+});
 // ── 10. Vanilla Tilt (3D tilt on service cards) ───────────
 if (typeof VanillaTilt !== 'undefined') {
     VanillaTilt.init(document.querySelectorAll('.expand-card[data-tilt]'), {
@@ -327,22 +373,6 @@ gsap.fromTo('.section-projects .section-eyebrow, .section-projects .section-titl
     );
 });
 
-// Testimonials
-gsap.fromTo('.section-testimonials .section-eyebrow, .section-testimonials .section-title',
-    { y: 40, opacity: 0 },
-    {
-        scrollTrigger: { trigger: '.section-testimonials', start: 'top 80%' },
-        y: 0, opacity: 1, duration: 0.9, stagger: 0.15, ease: 'power3.out',
-    }
-);
-
-gsap.fromTo('.testimonial-card',
-    { y: 60, opacity: 0 },
-    {
-        scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%' },
-        y: 0, opacity: 1, stagger: 0.15, duration: 0.9, ease: 'power3.out',
-    }
-);
 
 // Contact
 const contactTl = gsap.timeline({
@@ -407,3 +437,383 @@ window.addEventListener('resize', () => {
 
 ScrollTrigger.refresh();
 
+// ── 16. i18n — EN / FR Language Switcher ──────────────────
+(function() {
+    const translations = {
+        en: {
+            // Nav
+            nav_home: 'Home',
+            nav_about: 'About',
+            nav_works: 'Works',
+            nav_contact: 'Contact',
+            nav_hire: 'RESUME',
+
+            // Hero
+            hero_eyebrow: '<span class="eyebrow-line"></span>SOFTWARE ENGINEER | AI & DATA SCIENCE<span class="eyebrow-line"></span>',
+            hero_title_1: 'I BUILD',
+            hero_title_2: 'SCALABLE',
+            hero_title_3: 'SYSTEMS',
+            hero_desc: 'From intelligent AI-driven platforms to robust full-stack web applications — I engineer <strong>performant, scalable, and secure</strong> solutions with modern technologies.',
+            hero_view_work: 'VIEW MY WORK',
+            hero_hire_me: 'RESUME',
+
+            // About
+            about_eyebrow: 'WHO I AM',
+            about_title_1: "THE STORY",
+            about_title_2: 'Behind the Code',
+            about_desc_1: "I'm <strong>Mordheeshvara</strong> — a final-year B.Tech student in Artificial Intelligence & Data Science, Smart India Hackathon (SIH) <strong>national finalist</strong>, and a passionate Software Engineer.",
+            about_desc_2: 'I specialise in engineering <strong>full-stack AI-powered platforms</strong> and scalable cloud architectures. Currently seeking full-time opportunities where I can apply my deep technical stack to solve complex, real-world problems.',
+            about_dossier: 'DOWNLOAD DOSSIER',
+
+            // Badges
+            badge_sih: 'SIH National Finalist',
+            badge_aws: 'AWS Certified',
+            badge_global: 'Global Reach',
+
+            // Projects
+            projects_eyebrow: 'PORTFOLIO',
+            projects_title_1: 'SELECTED',
+            projects_title_2: 'WORKS',
+            projects_p1_title: 'AI-Powered Cloud Security Platform',
+            projects_p1_desc: 'Enterprise-grade platform using FastAPI and Next.js enabling read-only security analysis via AWS STS AssumeRole. Audit logging mapped to CIS, ISO 27001, and SOC 2 frameworks with real-time compliance scoring.',
+            projects_p1_link: 'DISCUSS THIS PROJECT',
+            projects_p2_title: 'Buylo — Premium E-Commerce Platform',
+            projects_p2_desc: 'A luxury-inspired e-commerce platform built with Next.js and Framer Motion. Engineered real-time inventory workflows, optimised core web vitals to 98+ Lighthouse score, and integrated a seamless multi-step checkout.',
+            projects_p2_link: 'DISCUSS THIS PROJECT',
+            projects_p3_title: 'AI Analytics & Prediction Dashboard',
+            projects_p3_desc: 'Predictive modelling dashboard with real-time anomaly detection, data forecasting visualisations and an integrated generative AI assistant. Deployed on AWS Lambda with FastAPI backend and React frontend.',
+            projects_p3_link: 'DISCUSS THIS PROJECT',
+
+            // Le Noyau (Design Philosophy)
+            noyau_eyebrow: 'THE CORE',
+            noyau_title_1: 'DESIGN',
+            noyau_title_2: 'PHILOSOPHY',
+            noyau_h1: 'Precision Over Decoration',
+            noyau_p1: 'Every line of code is a deliberate decision. I don\'t decorate \u2014 I engineer. Clean architecture, optimised performance, and invisible complexity.',
+            noyau_h2: 'Elegance in Logic',
+            noyau_p2: 'The best interfaces feel inevitable \u2014 as if they couldn\'t exist any other way. That simplicity is the result of relentless iteration and deep systems thinking.',
+            noyau_h3: 'Future-Native Engineering',
+            noyau_p3: 'I build for what\'s next \u2014 AI orchestration, edge computing, serverless-first. Every project is designed to evolve, not just to launch.',
+            noyau_tagline: '"Code is not just logic; it is poetry."',
+
+            // Contact
+            contact_eyebrow: 'GET IN TOUCH',
+            contact_title_1: 'LET\'S',
+            contact_title_2: 'Connect',
+            contact_desc: "Looking for a passionate Software Engineer? Let's talk about how I can add value to your engineering team.",
+            contact_availability: 'Open to Full-Time Roles',
+            contact_label_name: 'Your Name',
+            contact_label_email: 'Email Address',
+            contact_label_message: 'Message',
+            contact_btn_send: 'SEND MESSAGE',
+            contact_success: "Message sent! I'll get back to you within 24 hours.",
+
+            // Footer
+            footer_desc: 'Software Engineer & AI Enthusiast<br>building scalable digital experiences.',
+            footer_bottom: '© 2026 Mordheeshvara. All rights reserved.',
+        },
+
+        fr: {
+            // Nav
+            nav_home: 'Accueil',
+            nav_about: 'À Propos',
+            nav_works: 'Projets',
+            nav_contact: 'Contact',
+            nav_hire: 'CV',
+
+            // Hero
+            hero_eyebrow: '<span class="eyebrow-line"></span>INGÉNIEUR LOGICIEL | IA & DATA SCIENCE<span class="eyebrow-line"></span>',
+            hero_title_1: 'JE CRÉE',
+            hero_title_2: 'DES SYSTÈMES',
+            hero_title_3: 'ÉVOLUTIFS',
+            hero_desc: 'Des plateformes intelligentes basées sur l\'IA aux applications web robustes — je conçois des solutions <strong>performantes, évolutives et sécurisées</strong> avec des technologies modernes.',
+            hero_view_work: 'VOIR MES PROJETS',
+            hero_hire_me: 'CV',
+
+            // About
+            about_eyebrow: 'QUI SUIS-JE',
+            about_title_1: "L'HISTOIRE",
+            about_title_2: 'Derrière le Code',
+            about_desc_1: "Je suis <strong>Mordheeshvara</strong> — étudiant en dernière année de B.Tech en Intelligence Artificielle & Data Science, <strong>finaliste national</strong> du Smart India Hackathon (SIH), et Ingénieur Logiciel passionné.",
+            about_desc_2: "Je me spécialise dans la création de <strong>plateformes full-stack propulsées par l'IA</strong> et d'architectures cloud évolutives. Actuellement à la recherche d'opportunités à temps plein où je peux appliquer mes compétences techniques pour résoudre des problèmes complexes.",
+            about_dossier: 'TÉLÉCHARGER LE DOSSIER',
+
+            // Badges
+            badge_sih: 'Finaliste National SIH',
+            badge_aws: 'Certifié AWS',
+            badge_global: 'Portée Mondiale',
+
+            // Projects
+            projects_eyebrow: 'PORTFOLIO',
+            projects_title_1: 'PROJETS',
+            projects_title_2: 'SÉLECTIONNÉS',
+            projects_p1_title: 'Plateforme IA de Sécurité Cloud',
+            projects_p1_desc: 'Plateforme de niveau entreprise utilisant FastAPI et Next.js permettant une analyse de sécurité en lecture seule via AWS STS AssumeRole. Journalisation d\'audit conforme aux référentiels CIS, ISO 27001 et SOC 2 avec scoring de conformité en temps réel.',
+            projects_p1_link: 'DISCUTER DE CE PROJET',
+            projects_p2_title: 'Buylo — Plateforme E-Commerce Premium',
+            projects_p2_desc: 'Plateforme e-commerce d\'inspiration luxe construite avec Next.js et Framer Motion. Workflows d\'inventaire en temps réel, core web vitals optimisés à 98+ Lighthouse, et checkout multi-étapes intégré.',
+            projects_p2_link: 'DISCUTER DE CE PROJET',
+            projects_p3_title: 'Tableau de Bord IA & Prédiction',
+            projects_p3_desc: 'Tableau de bord de modélisation prédictive avec détection d\'anomalies en temps réel, visualisations de prévisions et assistant IA génératif intégré. Déployé sur AWS Lambda avec backend FastAPI et frontend React.',
+            projects_p3_link: 'DISCUTER DE CE PROJET',
+
+            // Le Noyau (Design Philosophy)
+            noyau_eyebrow: 'LE NOYAU',
+            noyau_title_1: 'PHILOSOPHIE',
+            noyau_title_2: 'DE DESIGN',
+            noyau_h1: 'La Précision Avant la Décoration',
+            noyau_p1: 'Chaque ligne de code est une décision délibérée. Je ne décore pas \u2014 j\'ingénierie. Architecture propre, performance optimisée, et complexité invisible.',
+            noyau_h2: 'L\'Élégance dans la Logique',
+            noyau_p2: 'Les meilleures interfaces semblent inévitables \u2014 comme si elles ne pouvaient exister autrement. Cette simplicité est le fruit d\'itérations acharnées et d\'une pensée systémique profonde.',
+            noyau_h3: 'Ingénierie Native du Futur',
+            noyau_p3: 'Je construis pour ce qui vient \u2014 orchestration IA, edge computing, serverless-first. Chaque projet est conçu pour évoluer, pas seulement pour être lancé.',
+            noyau_tagline: '« Le code n\'est pas seulement de la logique ; c\'est de la poésie. »',
+
+            // Contact
+            contact_eyebrow: 'CONTACTEZ-MOI',
+            contact_title_1: 'CONNECTONS',
+            contact_title_2: 'Nous',
+            contact_desc: 'À la recherche d\'un Ingénieur Logiciel passionné ? Discutons de la manière dont je peux apporter de la valeur à votre équipe.',
+            contact_availability: 'Ouvert aux rôles à temps plein',
+            contact_label_name: 'Votre Nom',
+            contact_label_email: 'Adresse E-mail',
+            contact_label_message: 'Message',
+            contact_btn_send: 'ENVOYER LE MESSAGE',
+            contact_success: 'Message envoyé ! Je vous répondrai dans les 24 heures.',
+
+            // Footer
+            footer_desc: 'Ingénieur Logiciel & Passionné d\'IA<br>créateur de systèmes évolutifs.',
+            footer_bottom: '© 2026 Mordheeshvara. Tous droits réservés.',
+        }
+    };
+
+    let currentLang = localStorage.getItem('portfolio-lang') || 'en';
+
+    function applyTranslations(lang) {
+        const dict = translations[lang];
+        if (!dict) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key] !== undefined) {
+                // Animate: fade out, swap, fade in
+                el.style.transition = 'opacity 0.25s ease';
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.innerHTML = dict[key];
+                    el.style.opacity = '1';
+                }, 250);
+            }
+        });
+
+        // Update <html> lang attribute
+        document.documentElement.lang = lang;
+
+        // Update active button state
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        // Persist choice
+        localStorage.setItem('portfolio-lang', lang);
+        currentLang = lang;
+    }
+
+    // Bind click events
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            if (lang === currentLang) return;
+            applyTranslations(lang);
+        });
+    });
+
+    // Apply saved language on load (skip if English — it's the default HTML)
+    if (currentLang !== 'en') {
+        applyTranslations(currentLang);
+    }
+})();
+
+// ── 16.5 Theme Switcher ───────────────────────────────────────
+(function() {
+    const themeBtn = document.getElementById('theme-toggle');
+    const icon = themeBtn.querySelector('i');
+    
+    // Check local storage or system preference
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    
+    let isLightMode = savedTheme === 'light' || (!savedTheme && systemPrefersLight);
+    
+    function applyTheme() {
+        if (isLightMode) {
+            document.documentElement.setAttribute('data-theme', 'light');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+        localStorage.setItem('portfolio-theme', isLightMode ? 'light' : 'dark');
+    }
+    
+    applyTheme(); // Run on load
+    
+    themeBtn.addEventListener('click', () => {
+        isLightMode = !isLightMode;
+        applyTheme();
+    });
+})();
+
+// ══════════════════════════════════════════════════════════════
+// FUTURISTIC EFFECTS — Cyberpunk Layer
+// ══════════════════════════════════════════════════════════════
+
+// ── 17. Text Scramble Effect (on section eyebrows in view) ──
+class TextScramble {
+    constructor(el) {
+        this.el = el;
+        this.chars = '!<>-_\\/[]{}—=+*^?#ﾊﾐﾋ01';
+        this.update = this.update.bind(this);
+    }
+    setText(newText) {
+        const oldText = this.el.innerText;
+        const len = Math.max(oldText.length, newText.length);
+        const promise = new Promise(resolve => (this.resolve = resolve));
+        this.queue = [];
+        for (let i = 0; i < len; i++) {
+            const from = oldText[i] || '';
+            const to = newText[i] || '';
+            const start = Math.floor(Math.random() * 20);
+            const end = start + Math.floor(Math.random() * 20);
+            this.queue.push({ from, to, start, end });
+        }
+        cancelAnimationFrame(this.frameRequest);
+        this.frame = 0;
+        this.update();
+        return promise;
+    }
+    update() {
+        let output = '';
+        let complete = 0;
+        for (let i = 0, n = this.queue.length; i < n; i++) {
+            const { from, to, start, end } = this.queue[i];
+            if (this.frame >= end) {
+                complete++;
+                output += to;
+            } else if (this.frame >= start) {
+                const r = this.chars[Math.floor(Math.random() * this.chars.length)];
+                output += `<span style="opacity:0.4;color:var(--primary-blue)">${r}</span>`;
+            } else {
+                output += from;
+            }
+        }
+        this.el.innerHTML = output;
+        if (complete === this.queue.length) {
+            this.resolve();
+        } else {
+            this.frameRequest = requestAnimationFrame(this.update);
+            this.frame++;
+        }
+    }
+}
+
+// Apply scramble to section eyebrows when they enter view
+const eyebrows = document.querySelectorAll('.section-eyebrow');
+eyebrows.forEach(el => {
+    const originalText = el.textContent.trim();
+    const scrambler = new TextScramble(el);
+    let triggered = false;
+
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !triggered) {
+                triggered = true;
+                // Small delay before scramble
+                setTimeout(() => {
+                    scrambler.setText(originalText);
+                }, 200);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    obs.observe(el);
+});
+
+// ── 18. Periodic Glitch Flicker on Hero Highlight ──────────
+const heroHighlight = document.querySelector('.hero-title .highlight-text');
+if (heroHighlight) {
+    setInterval(() => {
+        // Random glitch trigger every 4-10 seconds
+        const delay = Math.random() * 6000 + 4000;
+        setTimeout(() => {
+            heroHighlight.style.animation = 'none';
+            // Force reflow
+            void heroHighlight.offsetHeight;
+            heroHighlight.style.animation = '';
+        }, delay);
+    }, 10000);
+}
+
+// ── 19. Matrix Rain — REMOVED for 60fps performance ─────────
+// (Canvas redraws at 16fps were consuming GPU/CPU)
+
+
+// ── 20. HUD Corner Bracket Inject on Cards ─────────────────
+document.querySelectorAll('.project-row, .testimonial-card.featured').forEach(el => {
+    // Wrap in a hud-frame div for styled corners
+    el.classList.add('hud-frame');
+});
+
+// ── 21. Click spark (lightweight — only 3 particles) ────────
+document.addEventListener('click', (e) => {
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('span');
+        const angle = (120 * i) + Math.random() * 40;
+        const dist = 20 + Math.random() * 15;
+        const rad = (angle * Math.PI) / 180;
+
+        dot.style.cssText = `
+            position:fixed; left:${e.clientX}px; top:${e.clientY}px;
+            width:3px; height:3px; border-radius:50%;
+            background:var(--primary-blue); pointer-events:none;
+            z-index:99999; opacity:1;
+            transform:translate(-50%,-50%);
+            transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .4s ease;
+        `;
+        document.body.appendChild(dot);
+        requestAnimationFrame(() => {
+            dot.style.transform = `translate(calc(-50% + ${Math.cos(rad)*dist}px), calc(-50% + ${Math.sin(rad)*dist}px))`;
+            dot.style.opacity = '0';
+        });
+        setTimeout(() => dot.remove(), 450);
+    }
+});
+
+// ── 22. 3D Tilt — Only on HUD card (lightweight) ───────────
+document.querySelectorAll('.noyau-hud-card').forEach(el => {
+    el.classList.add('tilt-card');
+    let glare = el.querySelector('.tilt-glare');
+    if (!glare) {
+        glare = document.createElement('div');
+        glare.classList.add('tilt-glare');
+        el.appendChild(glare);
+    }
+
+    el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const tiltX = ((e.clientY - rect.top - centerY) / centerY) * -6;
+        const tiltY = ((e.clientX - rect.left - centerX) / centerX) * 6;
+        el.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.01,1.01,1.01)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+        el.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+    });
+});
+
+// ── 23. Chromatic Aberration — REMOVED for performance ──────
+// (Applying filter to body triggers full-page repaint = lag)

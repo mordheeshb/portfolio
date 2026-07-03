@@ -43,7 +43,11 @@
     <!-- ══════════════════════════════════════════════════════
          CUSTOM CURSOR
     ══════════════════════════════════════════════════════ -->
-    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="custom-cursor" id="custom-cursor">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+        </svg>
+    </div>
     <div class="cursor-follower" id="cursor-follower"></div>
 
     <!-- ══════════════════════════════════════════════════════
@@ -68,13 +72,23 @@
         <a href="#home" class="nav-brand"><img src="img/logo.png" alt="M." class="brand-logo"></a>
 
         <div class="nav-links" id="nav-links">
-            <a href="#about" class="nav-link" data-section="about">About</a>
-            <a href="#services" class="nav-link" data-section="services">Services</a>
-            <a href="#projects" class="nav-link" data-section="projects">Works</a>
-            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
-            <a href="#contact" class="btn btn-nav-cta" id="nav-hire-btn">
-                <span>HIRE ME</span>
-                <i class="fa-solid fa-arrow-right"></i>
+            <a href="#about" class="nav-link" data-section="about" data-i18n="nav_about">About</a>
+            <a href="#projects" class="nav-link" data-section="projects" data-i18n="nav_works">Works</a>
+            <a href="#contact" class="nav-link" data-section="contact" data-i18n="nav_contact">Contact</a>
+
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <span class="lang-separator">/</span>
+                <button class="lang-btn" data-lang="fr">FR</button>
+            </div>
+
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+            <a href="Mordheeshvara_Resume.pdf" target="_blank" class="btn btn-nav-cta" id="nav-hire-btn">
+                <span data-i18n="nav_hire">RESUME</span>
+                <i class="fa-solid fa-file-pdf"></i>
             </a>
         </div>
 
@@ -98,33 +112,35 @@
             <section class="hero" id="home">
                 <div class="hero-inner container">
                     <div class="hero-content">
-                        <p class="hero-eyebrow" id="hero-eyebrow">
+                        <p class="hero-eyebrow" id="hero-eyebrow" data-i18n="hero_eyebrow">
                             <span class="eyebrow-line"></span>
-                            FREELANCE FULL-STACK WEB DEVELOPER
+                            SOFTWARE ENGINEER | AI & DATA SCIENCE
                             <span class="eyebrow-line"></span>
                         </p>
 
                         <h1 class="hero-title" id="hero-title">
-                            <span class="line"><span class="char-wrap">I BUILD</span></span>
-                            <span class="line highlight-text"><span class="char-wrap">DIGITAL</span></span>
-                            <span class="line"><span class="char-wrap">EXPERIENCES</span></span>
+                            <span class="line"><span class="char-wrap" data-i18n="hero_title_1">I BUILD</span></span>
+                            <span class="line highlight-text"><span class="char-wrap"
+                                    data-i18n="hero_title_2">SCALABLE</span></span>
+                            <span class="line"><span class="char-wrap"
+                                    data-i18n="hero_title_3">SYSTEMS</span></span>
                         </h1>
 
-                        <p class="hero-desc" id="hero-desc">
-                            From stunning landing pages to complex e-commerce platforms —
-                            I craft <strong>pixel-perfect, high-performance</strong> web applications
-                            for clients worldwide.
+                        <p class="hero-desc" id="hero-desc" data-i18n="hero_desc">
+                            From intelligent AI-driven platforms to robust full-stack web applications —
+                            I engineer <strong>performant, scalable, and secure</strong> solutions
+                            with modern technologies.
                         </p>
 
                         <div class="hero-actions" id="hero-actions">
                             <a href="#projects" class="btn btn-primary" id="btn-view-work">
-                                <span class="btn-text">VIEW MY WORK</span>
+                                <span class="btn-text" data-i18n="hero_view_work">VIEW MY WORK</span>
                                 <span class="btn-icon"><i class="fa-solid fa-arrow-down"></i></span>
                                 <span class="btn-hover-bg"></span>
                             </a>
-                            <a href="#contact" class="btn btn-outline" id="btn-hire">
-                                <span class="btn-text">HIRE ME</span>
-                                <span class="btn-icon"><i class="fa-solid fa-arrow-right"></i></span>
+                            <a href="Mordheeshvara_Resume.pdf" target="_blank" class="btn btn-outline" id="btn-hire">
+                                <span class="btn-text" data-i18n="hero_hire_me">RESUME</span>
+                                <span class="btn-icon"><i class="fa-solid fa-file-pdf"></i></span>
                                 <span class="btn-hover-bg"></span>
                             </a>
                         </div>
@@ -145,38 +161,7 @@
                 </div>
             </section>
 
-            <!-- ─────────────────────────────────────────────
-                 SECTION 2 — STATS BAR
-            ───────────────────────────────────────────── -->
-            <section class="stats-bar" id="stats">
-                <div class="container">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="50">0</span>
-                            <span class="stat-suffix">+</span>
-                            <p class="stat-label">Projects Built</p>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="30">0</span>
-                            <span class="stat-suffix">+</span>
-                            <p class="stat-label">Global Clients</p>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="5">0</span>
-                            <span class="stat-suffix">+</span>
-                            <p class="stat-label">Years Experience</p>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <span class="stat-number" data-target="100">0</span>
-                            <span class="stat-suffix">%</span>
-                            <p class="stat-label">Client Satisfaction</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
 
             <!-- ─────────────────────────────────────────────
                  SECTION 3 — ABOUT
@@ -185,26 +170,23 @@
                 <div class="container">
                     <div class="about-grid">
                         <div class="about-left">
-                            <p class="section-eyebrow">WHO I AM</p>
+                            <p class="section-eyebrow" data-i18n="about_eyebrow">WHO I AM</p>
                             <h2 class="section-title">
-                                L'HISTOIRE<br>
-                                <span class="highlight-text">Behind the Code</span>
+                                <span data-i18n="about_title_1">THE STORY</span><br>
+                                <span class="highlight-text" data-i18n="about_title_2">Behind the Code</span>
                             </h2>
-                            <p class="about-desc">
+                            <p class="about-desc" data-i18n="about_desc_1">
                                 I'm <strong>Mordheeshvara</strong> — a final-year B.Tech student in Artificial
                                 Intelligence &amp; Data Science,
-                                Smart India Hackathon (SIH) <strong>national finalist</strong>, and passionate freelance
-                                developer.
+                                Smart India Hackathon (SIH) <strong>national finalist</strong>, and a passionate Software Engineer.
                             </p>
-                            <p class="about-desc">
-                                I specialise in building <strong>full-stack AI-powered platforms</strong> on AWS
-                                for high-tier clients globally — from sleek e-commerce stores to enterprise security
-                                dashboards.
-                                Every pixel is intentional. Every line of code is crafted with precision.
+                            <p class="about-desc" data-i18n="about_desc_2">
+                                I specialise in engineering <strong>full-stack AI-powered platforms</strong> and scalable cloud architectures. 
+                                Currently seeking full-time opportunities where I can apply my deep technical stack to solve complex, real-world problems.
                             </p>
                             <a href="Mordheeshvara_Resume.pdf" target="_blank" class="btn btn-secondary"
                                 id="btn-resume">
-                                <span class="btn-text">DOWNLOAD DOSSIER</span>
+                                <span class="btn-text" data-i18n="about_dossier">DOWNLOAD DOSSIER</span>
                                 <span class="btn-icon"><i class="fa-solid fa-file-pdf"></i></span>
                                 <span class="btn-hover-bg"></span>
                             </a>
@@ -242,15 +224,15 @@
                             <div class="about-badges">
                                 <div class="badge">
                                     <i class="fa-solid fa-trophy"></i>
-                                    <span>SIH National Finalist</span>
+                                    <span data-i18n="badge_sih">SIH National Finalist</span>
                                 </div>
                                 <div class="badge">
                                     <i class="fa-brands fa-aws"></i>
-                                    <span>AWS Certified</span>
+                                    <span data-i18n="badge_aws">AWS Certified</span>
                                 </div>
                                 <div class="badge">
                                     <i class="fa-solid fa-globe"></i>
-                                    <span>Global Clients</span>
+                                    <span data-i18n="badge_global">Global Clients</span>
                                 </div>
                             </div>
                         </div>
@@ -258,122 +240,16 @@
                 </div>
             </section>
 
-            <!-- ─────────────────────────────────────────────
-                 SECTION 4 — SERVICES
-            ───────────────────────────────────────────── -->
-            <section class="section-services" id="services">
-                <div class="container">
-                    <p class="section-eyebrow">WHAT I DO</p>
-                    <h2 class="section-title">LES <span class="highlight-text">SERVICES</span></h2>
 
-                    <div class="services-expand-container" id="services-gallery">
-                        <!-- Card 1 -->
-                        <div class="expand-card active">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1000"
-                                alt="E-Commerce">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <h3>E-Commerce &amp; Shopify</h3>
-                                <div class="expand-details">
-                                    <p>Custom storefronts, Shopify/WooCommerce builds, payment gateways &amp; checkout
-                                        flows.</p>
-                                    <div class="service-tags">
-                                        <span>Shopify</span><span>Next.js</span><span>Stripe</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="expand-card">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000"
-                                alt="Full Stack">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-solid fa-layer-group"></i></div>
-                                <h3>Full-Stack Web Apps</h3>
-                                <div class="expand-details">
-                                    <p>End-to-end SaaS platforms, admin dashboards, APIs and real-time web applications.
-                                    </p>
-                                    <div class="service-tags"><span>React</span><span>FastAPI</span><span>Node.js</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 3 -->
-                        <div class="expand-card">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000"
-                                alt="Landing Pages">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                                <h3>Landing Pages</h3>
-                                <div class="expand-details">
-                                    <p>Stunning, conversion-optimised landing pages with cinematic animations.</p>
-                                    <div class="service-tags"><span>HTML/CSS</span><span>GSAP</span><span>SEO</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="expand-card">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000"
-                                alt="AI Platforms">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-solid fa-brain"></i></div>
-                                <h3>AI-Powered Platforms</h3>
-                                <div class="expand-details">
-                                    <p>Predictive analytics, generative AI tools, ML deployment and MCP orchestration.
-                                    </p>
-                                    <div class="service-tags">
-                                        <span>Python</span><span>Scikit-learn</span><span>MCP</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 5 -->
-                        <div class="expand-card">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000"
-                                alt="Cloud Architecture">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-brands fa-aws"></i></div>
-                                <h3>Cloud Architecture</h3>
-                                <div class="expand-details">
-                                    <p>Enterprise serverless infrastructure, AWS STS, Lambda deployments and compliance.
-                                    </p>
-                                    <div class="service-tags"><span>AWS STS</span><span>Lambda</span><span>IAM</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 6 -->
-                        <div class="expand-card">
-                            <img class="expand-img"
-                                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1000"
-                                alt="Mobile Apps">
-                            <div class="expand-content">
-                                <div class="expand-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                                <h3>Mobile App Dev</h3>
-                                <div class="expand-details">
-                                    <p>Cross-platform iOS and Android apps with pixel-perfect UI and cloud sync.</p>
-                                    <div class="service-tags"><span>Flutter</span><span>Dart</span><span>Firebase</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- ─────────────────────────────────────────────
                  SECTION 5 — SELECTED WORKS
             ───────────────────────────────────────────── -->
             <section class="section-projects" id="projects">
                 <div class="container">
-                    <p class="section-eyebrow">PORTFOLIO</p>
-                    <h2 class="section-title">SELECTED <span class="highlight-text">WORKS</span></h2>
+                    <p class="section-eyebrow" data-i18n="projects_eyebrow">PORTFOLIO</p>
+                    <h2 class="section-title"><span data-i18n="projects_title_1">SELECTED</span> <span
+                            class="highlight-text" data-i18n="projects_title_2">WORKS</span></h2>
 
                     <!-- Project 1 -->
                     <div class="project-row" id="proj-1">
@@ -383,8 +259,10 @@
                                 <span class="project-year">2025–26</span>
                                 <span class="project-category">Full Stack · Cloud Security</span>
                             </div>
-                            <h3 class="project-title">AI-Powered Cloud Security Platform</h3>
-                            <p class="project-desc">Enterprise-grade platform using FastAPI and Next.js enabling
+                            <h3 class="project-title" data-i18n="projects_p1_title">AI-Powered Cloud Security Platform
+                            </h3>
+                            <p class="project-desc" data-i18n="projects_p1_desc">Enterprise-grade platform using FastAPI
+                                and Next.js enabling
                                 read-only security analysis via AWS STS AssumeRole. Audit logging mapped to CIS, ISO
                                 27001, and SOC 2 frameworks with real-time compliance scoring.</p>
                             <div class="project-tags">
@@ -395,14 +273,13 @@
                                 <span class="tag">Python</span>
                             </div>
                             <a href="#contact" class="project-link">
-                                <span>DISCUSS THIS PROJECT</span>
+                                <span data-i18n="projects_p1_link">DISCUSS THIS PROJECT</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
                         <div class="project-image">
-                            <div class="project-img-wrap">
-                                <img src="img/project-1.png"
-                                    alt="AI Cloud Security Platform" loading="lazy">
+                            <div class="project-img-wrap" data-cursor-text="VIEW">
+                                <img src="img/project-1.png" alt="AI Cloud Security Platform" loading="lazy">
                                 <div class="project-img-overlay"></div>
                             </div>
                         </div>
@@ -416,8 +293,10 @@
                                 <span class="project-year">2025</span>
                                 <span class="project-category">Full Stack · E-Commerce</span>
                             </div>
-                            <h3 class="project-title">Buylo — Premium E-Commerce Platform</h3>
-                            <p class="project-desc">A luxury-inspired e-commerce platform built with Next.js and Framer
+                            <h3 class="project-title" data-i18n="projects_p2_title">Buylo — Premium E-Commerce Platform
+                            </h3>
+                            <p class="project-desc" data-i18n="projects_p2_desc">A luxury-inspired e-commerce platform
+                                built with Next.js and Framer
                                 Motion. Engineered real-time inventory workflows, optimised core web vitals to 98+
                                 Lighthouse score, and integrated a seamless multi-step checkout.</p>
                             <div class="project-tags">
@@ -427,14 +306,13 @@
                                 <span class="tag">Stripe</span>
                             </div>
                             <a href="#contact" class="project-link">
-                                <span>DISCUSS THIS PROJECT</span>
+                                <span data-i18n="projects_p2_link">DISCUSS THIS PROJECT</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
                         <div class="project-image">
-                            <div class="project-img-wrap">
-                                <img src="img/project-2.png"
-                                    alt="Buylo E-Commerce Platform" loading="lazy">
+                            <div class="project-img-wrap" data-cursor-text="VIEW">
+                                <img src="img/project-2.png" alt="Buylo E-Commerce Platform" loading="lazy">
                                 <div class="project-img-overlay"></div>
                             </div>
                         </div>
@@ -448,8 +326,10 @@
                                 <span class="project-year">2024</span>
                                 <span class="project-category">AI · Machine Learning</span>
                             </div>
-                            <h3 class="project-title">AI Analytics &amp; Prediction Dashboard</h3>
-                            <p class="project-desc">Predictive modelling dashboard with real-time anomaly detection,
+                            <h3 class="project-title" data-i18n="projects_p3_title">AI Analytics &amp; Prediction
+                                Dashboard</h3>
+                            <p class="project-desc" data-i18n="projects_p3_desc">Predictive modelling dashboard with
+                                real-time anomaly detection,
                                 data forecasting visualisations and an integrated generative AI assistant. Deployed on
                                 AWS Lambda with FastAPI backend and React frontend.</p>
                             <div class="project-tags">
@@ -460,14 +340,13 @@
                                 <span class="tag">AWS</span>
                             </div>
                             <a href="#contact" class="project-link">
-                                <span>DISCUSS THIS PROJECT</span>
+                                <span data-i18n="projects_p3_link">DISCUSS THIS PROJECT</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
                         <div class="project-image">
-                            <div class="project-img-wrap">
-                                <img src="img/project-3.png"
-                                    alt="AI Analytics Dashboard" loading="lazy">
+                            <div class="project-img-wrap" data-cursor-text="VIEW">
+                                <img src="img/project-3.png" alt="AI Analytics Dashboard" loading="lazy">
                                 <div class="project-img-overlay"></div>
                             </div>
                         </div>
@@ -514,67 +393,86 @@
             </section>
 
             <!-- ─────────────────────────────────────────────
-                 SECTION 7 — TESTIMONIALS
+                 SECTION 7 — LE NOYAU (THE CORE)
             ───────────────────────────────────────────── -->
-            <section class="section-testimonials" id="testimonials">
+            <section class="section-noyau" id="noyau">
                 <div class="container">
-                    <p class="section-eyebrow">CLIENT FEEDBACK</p>
-                    <h2 class="section-title">WHAT CLIENTS <span class="highlight-text">SAY</span></h2>
+                    <p class="section-eyebrow" data-i18n="noyau_eyebrow">THE CORE</p>
+                    <h2 class="section-title">
+                        <span data-i18n="noyau_title_1">DESIGN</span><br>
+                        <span class="highlight-text" data-i18n="noyau_title_2">PHILOSOPHY</span>
+                    </h2>
 
-                    <div class="testimonials-grid">
-                        <div class="testimonial-card">
-                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
-                            <p class="testimonial-text">"Mordheeshvara delivered an exceptional e-commerce platform that
-                                exceeded all our expectations. The attention to detail, performance optimisation, and
-                                smooth animations made our clients absolutely love it."</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">JD</div>
-                                <div class="author-info">
-                                    <strong>James D.</strong>
-                                    <span>E-Commerce Director, UK</span>
-                                </div>
-                                <div class="star-rating">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
+                    <div class="noyau-grid">
+                        <!-- Manifesto Column -->
+                        <div class="noyau-manifesto">
+                            <div class="manifesto-block">
+                                <span class="manifesto-number">01</span>
+                                <h3 class="manifesto-heading" data-i18n="noyau_h1">Precision Over Decoration</h3>
+                                <p class="manifesto-text" data-i18n="noyau_p1">
+                                    Every line of code is a deliberate decision. I don't decorate — I engineer.
+                                    Clean architecture, optimised performance, and invisible complexity.
+                                </p>
+                            </div>
+                            <div class="manifesto-block">
+                                <span class="manifesto-number">02</span>
+                                <h3 class="manifesto-heading" data-i18n="noyau_h2">Elegance in Logic</h3>
+                                <p class="manifesto-text" data-i18n="noyau_p2">
+                                    The best interfaces feel inevitable — as if they couldn't exist any other way.
+                                    That simplicity is the result of relentless iteration and deep systems thinking.
+                                </p>
+                            </div>
+                            <div class="manifesto-block">
+                                <span class="manifesto-number">03</span>
+                                <h3 class="manifesto-heading" data-i18n="noyau_h3">Future-Native Engineering</h3>
+                                <p class="manifesto-text" data-i18n="noyau_p3">
+                                    I build for what's next — AI orchestration, edge computing, serverless-first.
+                                    Every project is designed to evolve, not just to launch.
+                                </p>
                             </div>
                         </div>
 
-                        <div class="testimonial-card featured">
-                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
-                            <p class="testimonial-text">"The cloud security dashboard he built is hands-down the most
-                                impressive tool our team uses. Deep AWS expertise, clean code architecture, and
-                                delivered 2 weeks ahead of schedule. Will hire again."</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">SR</div>
-                                <div class="author-info">
-                                    <strong>Sarah R.</strong>
-                                    <span>CTO, FinTech Startup, USA</span>
-                                </div>
-                                <div class="star-rating">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-card">
-                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
-                            <p class="testimonial-text">"Incredible Flutter mobile app — silky smooth animations,
-                                offline-first architecture and a beautiful UI. Mordheeshvara understands design AND
-                                engineering at a level very few freelancers do."</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">AK</div>
-                                <div class="author-info">
-                                    <strong>Arjun K.</strong>
-                                    <span>Product Manager, Singapore</span>
-                                </div>
-                                <div class="star-rating">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                        <!-- Visual Column -->
+                        <div class="noyau-visual">
+                            <div class="noyau-hud-card" data-cursor-text="CORE">
+                                <div class="hud-corner hud-tl"></div>
+                                <div class="hud-corner hud-tr"></div>
+                                <div class="hud-corner hud-bl"></div>
+                                <div class="hud-corner hud-br"></div>
+                                <div class="hud-content">
+                                    <div class="hud-label">SYSTEM.CORE</div>
+                                    <div class="hud-stat-row">
+                                        <span class="hud-key">PRECISION</span>
+                                        <div class="hud-bar">
+                                            <div class="hud-fill" style="width: 97%"></div>
+                                        </div>
+                                        <span class="hud-val">97%</span>
+                                    </div>
+                                    <div class="hud-stat-row">
+                                        <span class="hud-key">ELEGANCE</span>
+                                        <div class="hud-bar">
+                                            <div class="hud-fill" style="width: 94%"></div>
+                                        </div>
+                                        <span class="hud-val">94%</span>
+                                    </div>
+                                    <div class="hud-stat-row">
+                                        <span class="hud-key">VELOCITY</span>
+                                        <div class="hud-bar">
+                                            <div class="hud-fill" style="width: 99%"></div>
+                                        </div>
+                                        <span class="hud-val">99%</span>
+                                    </div>
+                                    <div class="hud-stat-row">
+                                        <span class="hud-key">INNOVATION</span>
+                                        <div class="hud-bar">
+                                            <div class="hud-fill" style="width: 96%"></div>
+                                        </div>
+                                        <span class="hud-val">96%</span>
+                                    </div>
+                                    <div class="hud-divider"></div>
+                                    <div class="hud-tagline" data-i18n="noyau_tagline">
+                                        "Code is not just logic; it is poetry."
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -589,14 +487,13 @@
                 <div class="container">
                     <div class="contact-grid">
                         <div class="contact-left">
-                            <p class="section-eyebrow">GET IN TOUCH</p>
+                            <p class="section-eyebrow" data-i18n="contact_eyebrow">GET IN TOUCH</p>
                             <h2 class="section-title">
-                                COMMENCER<br>
-                                <span class="highlight-text">A Project</span>
+                                <span data-i18n="contact_title_1">LET'S</span><br>
+                                <span class="highlight-text" data-i18n="contact_title_2">Connect</span>
                             </h2>
-                            <p class="contact-desc">
-                                Have a project in mind? Let's build something extraordinary together.
-                                I'm available for freelance projects worldwide.
+                            <p class="contact-desc" data-i18n="contact_desc">
+                                Looking for a passionate Software Engineer? Let's talk about how I can add value to your engineering team.
                             </p>
 
                             <div class="contact-details">
@@ -625,7 +522,7 @@
 
                             <div class="availability-badge">
                                 <span class="avail-dot"></span>
-                                Available for new projects
+                                <span data-i18n="contact_availability">Open to Full-Time Roles</span>
                             </div>
                         </div>
 
@@ -634,28 +531,23 @@
                                 <div class="form-group">
                                     <input type="text" id="f-name" name="name" required autocomplete="off"
                                         placeholder=" ">
-                                    <label for="f-name">Your Name</label>
+                                    <label for="f-name" data-i18n="contact_label_name">Your Name</label>
                                     <span class="form-line"></span>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" id="f-email" name="email" required autocomplete="off"
                                         placeholder=" ">
-                                    <label for="f-email">Email Address</label>
-                                    <span class="form-line"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" id="f-project" name="project" autocomplete="off" placeholder=" ">
-                                    <label for="f-project">Project Type</label>
+                                    <label for="f-email" data-i18n="contact_label_email">Email Address</label>
                                     <span class="form-line"></span>
                                 </div>
                                 <div class="form-group">
                                     <textarea id="f-message" name="message" rows="4" required
                                         placeholder=" "></textarea>
-                                    <label for="f-message">Project Details</label>
+                                    <label for="f-message" data-i18n="contact_label_message">Message</label>
                                     <span class="form-line"></span>
                                 </div>
                                 <button type="submit" class="btn btn-submit" id="btn-submit">
-                                    <span class="btn-text">INITIALIZE PROTOCOL</span>
+                                    <span class="btn-text" data-i18n="contact_btn_send">SEND MESSAGE</span>
                                     <span class="btn-icon"><i class="fa-solid fa-paper-plane"></i></span>
                                     <span class="btn-hover-bg"></span>
                                 </button>
@@ -677,29 +569,28 @@
                     <div class="footer-grid">
                         <div class="footer-brand">
                             <span class="footer-logo"><img src="img/logo.png" alt="M." class="footer-logo-img"></span>
-                            <p>Freelance Full-Stack Web Developer<br>building premium digital experiences.</p>
+                            <p data-i18n="footer_desc">Freelance Full-Stack Web Developer<br>building premium digital
+                                experiences.</p>
                         </div>
                         <div class="footer-links">
-                            <a href="#home">Home</a>
-                            <a href="#about">About</a>
-                            <a href="#services">Services</a>
-                            <a href="#projects">Works</a>
-                            <a href="#contact">Contact</a>
+                            <a href="#home" data-i18n="nav_home">Home</a>
+                            <a href="#about" data-i18n="nav_about">About</a>
+                            <a href="#services" data-i18n="nav_services">Services</a>
+                            <a href="#projects" data-i18n="nav_works">Works</a>
+                            <a href="#contact" data-i18n="nav_contact">Contact</a>
                         </div>
                         <div class="footer-social">
                             <a href="mailto:mordheeshvarab@gmail.com" aria-label="Email"><i
                                     class="fa-solid fa-envelope"></i></a>
-                            <a href="https://github.com" target="_blank" aria-label="GitHub"><i
+                            <a href="https://github.com/mordheeshb" target="_blank" aria-label="GitHub"><i
                                     class="fa-brands fa-github"></i></a>
-                            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i
+                            <a href="https://linkedin.com/in/mordheeshvara" target="_blank" aria-label="LinkedIn"><i
                                     class="fa-brands fa-linkedin"></i></a>
-                            <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i
-                                    class="fa-brands fa-x-twitter"></i></a>
                         </div>
                     </div>
                     <div class="footer-bottom">
-                        <p>&copy; 2026 Mordheeshvara. All rights reserved. Crafted with passion &amp; French aesthetics.
-                        </p>
+                        <p data-i18n="footer_bottom">&copy; 2026 Mordheeshvara. All rights reserved. Crafted with
+                            passion &amp; French aesthetics.</p>
                     </div>
                 </div>
             </footer>
