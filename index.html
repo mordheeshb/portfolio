@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <!-- Icons -->
@@ -36,16 +36,21 @@
     <canvas id="three-canvas"></canvas>
 
     <!-- ══════════════════════════════════════════════════════
-         CSS Gradient Background Layer
+         CSS Gradient Background Layer & Noise
     ══════════════════════════════════════════════════════ -->
     <div class="css-background"></div>
+    <div class="noise-overlay"></div>
 
     <!-- ══════════════════════════════════════════════════════
          CUSTOM CURSOR
     ══════════════════════════════════════════════════════ -->
     <div class="custom-cursor" id="custom-cursor">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+        <svg viewBox="0 0 40 40" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#00F0FF" stroke-width="1.5" fill="none">
+                <circle cx="20" cy="20" r="8" opacity="0.5"/>
+                <circle cx="20" cy="20" r="2" fill="#00F0FF"/>
+                <path d="M 20 4 L 20 12 M 20 28 L 20 36 M 4 20 L 12 20 M 28 20 L 36 20"/>
+            </g>
         </svg>
     </div>
     <div class="cursor-follower" id="cursor-follower"></div>
@@ -104,6 +109,8 @@
          MAIN CONTENT
     ══════════════════════════════════════════════════════ -->
     <main id="smooth-wrapper">
+        <div class="hud-global hud-top-left">SYS.VER_2.0</div>
+        <div class="hud-global hud-bottom-right">LAT: 48.8566 N</div>
         <div id="smooth-content">
 
             <!-- ─────────────────────────────────────────────
@@ -146,9 +153,16 @@
                         </div>
                     </div>
 
-                    <!-- 3D Globe sits on the right via CSS -->
-                    <div class="hero-globe-wrapper">
-                        <div class="hero-globe-label">FULL STACK</div>
+                    <!-- Profile Picture (Classy French UI / Puma Style) -->
+                    <div class="hero-profile-wrapper">
+                        <div class="profile-frame">
+                            <div class="profile-image-container">
+                                <img src="img/my pic.jpg" alt="Mordheeshvara" class="profile-img">
+                                <div class="profile-overlay"></div>
+                            </div>
+                            <div class="profile-accent-line"></div>
+                            <div class="profile-label">ENGINEER</div>
+                        </div>
                     </div>
                 </div>
 
@@ -278,9 +292,11 @@
                             </a>
                         </div>
                         <div class="project-image">
-                            <div class="project-img-wrap" data-cursor-text="VIEW">
+                            <div class="project-img-wrap" id="proj-1-trigger" onclick="openVideoModal()" style="cursor: pointer; z-index: 20; position: relative;" data-cursor-text="PLAY VIDEO">
                                 <img src="img/project-1.png" alt="AI Cloud Security Platform" loading="lazy">
-                                <div class="project-img-overlay"></div>
+                                <div class="project-img-overlay" style="pointer-events: none;">
+                                    <i class="fa-solid fa-play play-icon-overlay"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -361,33 +377,31 @@
                 <p class="section-eyebrow center">TECHNOLOGIES I USE</p>
                 <div class="marquee-wrapper">
                     <div class="marquee-track">
-                        <div class="marquee-item"><i class="fa-brands fa-react"></i><span>React.js</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-node-js"></i><span>Node.js</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-python"></i><span>Python</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-aws"></i><span>AWS</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-database"></i><span>SQL</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-flutter"
-                                style="font-family:sans-serif;font-weight:700;">FL</i><span>Flutter</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-cloud"></i><span>Vercel</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-bolt"></i><span>FastAPI</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-robot"></i><span>Scikit-learn</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-code"></i><span>Next.js</span></div>
+                        <div class="marquee-item"><a href="https://react.dev" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>React.js</span></a></div>
+                        <div class="marquee-item"><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Node.js</span></a></div>
+                        <div class="marquee-item"><a href="https://www.python.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Python</span></a></div>
+                        <div class="marquee-item"><a href="https://aws.amazon.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>AWS</span></a></div>
+                        <div class="marquee-item"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>JavaScript</span></a></div>
+                        <div class="marquee-item"><a href="https://en.wikipedia.org/wiki/SQL" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>SQL</span></a></div>
+                        <div class="marquee-item"><a href="https://flutter.dev" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Flutter</span></a></div>
+                        <div class="marquee-item"><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Vercel</span></a></div>
+                        <div class="marquee-item"><a href="https://fastapi.tiangolo.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>FastAPI</span></a></div>
+                        <div class="marquee-item"><a href="https://git-scm.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Git</span></a></div>
+                        <div class="marquee-item"><a href="https://scikit-learn.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Scikit-learn</span></a></div>
+                        <div class="marquee-item"><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Next.js</span></a></div>
                         <!-- Duplicate for infinite scroll -->
-                        <div class="marquee-item"><i class="fa-brands fa-react"></i><span>React.js</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-node-js"></i><span>Node.js</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-python"></i><span>Python</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-aws"></i><span>AWS</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-database"></i><span>SQL</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-flutter"
-                                style="font-family:sans-serif;font-weight:700;">FL</i><span>Flutter</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-cloud"></i><span>Vercel</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-bolt"></i><span>FastAPI</span></div>
-                        <div class="marquee-item"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-robot"></i><span>Scikit-learn</span></div>
-                        <div class="marquee-item"><i class="fa-solid fa-code"></i><span>Next.js</span></div>
+                        <div class="marquee-item"><a href="https://react.dev" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>React.js</span></a></div>
+                        <div class="marquee-item"><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Node.js</span></a></div>
+                        <div class="marquee-item"><a href="https://www.python.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Python</span></a></div>
+                        <div class="marquee-item"><a href="https://aws.amazon.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>AWS</span></a></div>
+                        <div class="marquee-item"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>JavaScript</span></a></div>
+                        <div class="marquee-item"><a href="https://en.wikipedia.org/wiki/SQL" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>SQL</span></a></div>
+                        <div class="marquee-item"><a href="https://flutter.dev" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Flutter</span></a></div>
+                        <div class="marquee-item"><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Vercel</span></a></div>
+                        <div class="marquee-item"><a href="https://fastapi.tiangolo.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>FastAPI</span></a></div>
+                        <div class="marquee-item"><a href="https://git-scm.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Git</span></a></div>
+                        <div class="marquee-item"><a href="https://scikit-learn.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Scikit-learn</span></a></div>
+                        <div class="marquee-item"><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"><span>Next.js</span></a></div>
                     </div>
                 </div>
             </section>
@@ -635,6 +649,27 @@
             }, 1200);
         }
     </script>
+    <!-- ══════════════════════════════════════════════════════
+         FUTURISTIC VIDEO MODAL
+    ══════════════════════════════════════════════════════ -->
+    <div class="video-modal-overlay" id="video-modal" onclick="closeVideoModal()">
+        <div class="video-modal-close" id="video-modal-close" onclick="closeVideoModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="video-modal-content" onclick="event.stopPropagation()">
+            <div class="video-modal-frame">
+                <div class="modal-corner modal-tl"></div>
+                <div class="modal-corner modal-tr"></div>
+                <div class="modal-corner modal-bl"></div>
+                <div class="modal-corner modal-br"></div>
+                <video id="project-video" class="project-video" controls>
+                    <source src="video/cloud_auditor.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

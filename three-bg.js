@@ -36,10 +36,10 @@
     const colors = new Float32Array(PARTICLE_COUNT * 3);
     const sizes = new Float32Array(PARTICLE_COUNT);
 
-    // Bleu de France: #318CE7   Rouge: #ED2939
-    const colorBlue = new THREE.Color('#318CE7');
-    const colorRed = new THREE.Color('#ED2939');
-    const colorWhite = new THREE.Color('#f8f9fa');
+    // Cyber-Cyan: #00F0FF   Neon-Purple: #7000FF
+    const colorBlue = new THREE.Color('#00F0FF');
+    const colorRed = new THREE.Color('#7000FF');
+    const colorWhite = new THREE.Color('#F4F4F5');
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
         // Fibonacci sphere distribution — uniform, no polar clustering
@@ -124,7 +124,7 @@
     // ── Orbiting Ring Lines (wireframe equator) ──────────
     const ringGeo = new THREE.TorusGeometry(SPHERE_RADIUS + 5, 0.5, 3, 120);
     const ringMat = new THREE.MeshBasicMaterial({
-        color: '#318CE7',
+        color: '#00F0FF',
         transparent: true,
         opacity: 0.15,
         wireframe: false,
@@ -134,7 +134,7 @@
     scene.add(ring1);
 
     const ring2Mat = new THREE.MeshBasicMaterial({
-        color: '#ED2939',
+        color: '#7000FF',
         transparent: true,
         opacity: 0.1,
         wireframe: false,
@@ -147,7 +147,7 @@
     // ── Inner Wireframe Icosahedron ──────────────────────
     const icoGeo = new THREE.IcosahedronGeometry(55, 1);
     const icoMat = new THREE.MeshBasicMaterial({
-        color: '#318CE7',
+        color: '#00F0FF',
         wireframe: true,
         transparent: true,
         opacity: 0.08,

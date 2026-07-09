@@ -8,10 +8,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ── 2. Lenis Smooth Scroll (window-based — most reliable) ─
 const lenis = new Lenis({
-    duration: 1.3,
+    duration: 1.8,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
-    mouseMultiplier: 0.9,
+    mouseMultiplier: 0.8,
     touchMultiplier: 2,
     infinite: false,
 });
@@ -23,55 +23,82 @@ gsap.ticker.lagSmoothing(0);
 // Connect Lenis scroll events to ScrollTrigger
 lenis.on('scroll', ScrollTrigger.update);
 
-// ScrollTrigger uses window by default — no proxy needed
+// ── 3. Custom Cursor Follower ───────────────────────────────
+const customCursor = document.getElementById('custom-cursor');
+const cursorFollower = document.getElementById('cursor-follower');
 
-// ── 3. Custom Cursor ──────────────────────────────────────
-const cursor   = document.getElementById('custom-cursor');
-const follower = document.getElementById('cursor-follower');
-
-if (cursor && follower) {
-    let curX = 0, curY = 0, folX = 0, folY = 0;
+if (customCursor && cursorFollower) {
+    let curX = window.innerWidth / 2;
+    let curY = window.innerHeight / 2;
+    let folX = curX;
+    let folY = curY;
+    
+    // Follower needs centering, customCursor is tip-aligned
+    gsap.set(cursorFollower, { xPercent: -50, yPercent: -50 });
 
     document.addEventListener('mousemove', (e) => {
-        curX = e.clientX; curY = e.clientY;
-        // The main dot should be nearly instant for responsiveness
-        gsap.to(cursor, { x: curX, y: curY, duration: 0.05, ease: 'power2.out' });
+        curX = e.clientX; 
+        curY = e.clientY;
+        gsap.set(customCursor, { x: curX, y: curY });
     });
 
-    // Follower lags behind for a heavy, elegant premium feel
     function followCursor() {
-        // Lower lerp value (0.08) makes it trail slower and smoother
-        folX += (curX - folX) * 0.08;
-        folY += (curY - folY) * 0.08;
-        gsap.set(follower, { x: folX, y: folY });
+        folX += (curX - folX) * 0.15; // Smooth trailing
+        folY += (curY - folY) * 0.15;
+        gsap.set(cursorFollower, { x: folX, y: folY });
         requestAnimationFrame(followCursor);
     }
     followCursor();
 
-    // Hover effects with Contextual Text
     document.querySelectorAll('a, button, .btn, input, textarea, .project-row, [data-cursor-text]').forEach((el) => {
         el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hover');
-            follower.classList.add('hover');
-            
+            customCursor.classList.add('hover');
+            cursorFollower.classList.add('hover');
             const text = el.getAttribute('data-cursor-text');
             if (text) {
-                follower.classList.add('has-text');
-                follower.setAttribute('data-text', text);
+                cursorFollower.classList.add('has-text');
+                cursorFollower.setAttribute('data-text', text);
             }
         });
         el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hover');
-            follower.classList.remove('hover');
-            follower.classList.remove('has-text');
-            follower.removeAttribute('data-text');
+            customCursor.classList.remove('hover');
+            cursorFollower.classList.remove('hover');
+            cursorFollower.classList.remove('has-text');
+            cursorFollower.removeAttribute('data-text');
+        });
+    });
+
+    // Magnetic Buttons Logic
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(btn, {
+                x: x * 0.4,
+                y: y * 0.4,
+                duration: 0.6,
+                ease: "power3.out"
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.6,
+                ease: "elastic.out(1, 0.3)"
+            });
         });
     });
 }
 
 // ── 4. Preloader ──────────────────────────────────────────
-window.addEventListener('load', () => {
+function hidePreloader() {
     const preloader = document.getElementById('preloader');
+    if (!preloader || preloader.dataset.loaded) return;
+    preloader.dataset.loaded = 'true';
 
     gsap.to('.loading-fill', {
         width: '100%',
@@ -97,30 +124,40 @@ window.addEventListener('load', () => {
                 });
         }
     });
-});
+}
+
+window.addEventListener('load', hidePreloader);
+// Fallback in case 'load' event doesn't fire (e.g., due to a failed external asset)
+setTimeout(hidePreloader, 3000);
 
 // ── 5. Hero Animations ────────────────────────────────────
 function runHeroAnimations() {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
+    // BlurText effect integration
     tl.fromTo('#hero-eyebrow',
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 1 }
+        { opacity: 0, y: 24, filter: 'blur(10px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 }
     )
     .fromTo('.hero-title .char-wrap',
-        { y: '120%' },
-        { y: '0%', duration: 1.4, stagger: 0.15, ease: 'expo.out' },
+        { y: '120%', opacity: 0, filter: 'blur(15px)', rotateX: -90, transformOrigin: 'top center' },
+        { y: '0%', opacity: 1, filter: 'blur(0px)', rotateX: 0, duration: 1.6, stagger: 0.08, ease: 'expo.out' },
         '-=0.6'
     )
     .fromTo('#hero-desc',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1 },
-        '-=0.8'
+        { opacity: 0, y: 30, filter: 'blur(10px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1 },
+        '-=1.0'
     )
     .fromTo('#hero-actions',
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        '-=0.6'
+        { opacity: 0, y: 20, filter: 'blur(10px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 },
+        '-=0.8'
+    )
+    .fromTo('.hero-profile-wrapper',
+        { opacity: 0, scale: 0.9, filter: 'blur(20px)', rotateY: -15 },
+        { opacity: 1, scale: 1, filter: 'blur(0px)', rotateY: 0, duration: 1.5, ease: 'expo.out' },
+        '-=1.2'
     );
 }
 
@@ -817,3 +854,44 @@ document.querySelectorAll('.noyau-hud-card').forEach(el => {
 
 // ── 23. Chromatic Aberration — REMOVED for performance ──────
 // (Applying filter to body triggers full-page repaint = lag)
+
+// ── 24. Video Modal Logic (Global & Cinematic) ─────────────────
+window.openVideoModal = () => {
+    const videoModal = document.getElementById('video-modal');
+    const projectVideo = document.getElementById('project-video');
+    if (!videoModal) return;
+
+    videoModal.classList.add('active');
+    
+    // Cinematic Reveal
+    gsap.fromTo('.video-modal-content', 
+        { scale: 0.8, y: 60, opacity: 0 },
+        { scale: 1, y: 0, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.75)' }
+    );
+    
+    gsap.fromTo('.video-modal-close',
+        { scale: 0, rotate: -90 },
+        { scale: 1, rotate: 0, duration: 0.6, delay: 0.4, ease: 'back.out(2)' }
+    );
+
+    if (projectVideo) projectVideo.play();
+};
+
+window.closeVideoModal = () => {
+    const videoModal = document.getElementById('video-modal');
+    const projectVideo = document.getElementById('project-video');
+    if (!videoModal) return;
+
+    // Cinematic Exit
+    gsap.to('.video-modal-content', {
+        scale: 0.9, y: 40, opacity: 0, duration: 0.4, ease: 'power2.in'
+    });
+    
+    setTimeout(() => {
+        videoModal.classList.remove('active');
+        if (projectVideo) {
+            projectVideo.pause();
+            projectVideo.currentTime = 0;
+        }
+    }, 400); // match duration
+};
