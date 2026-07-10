@@ -856,10 +856,14 @@ document.querySelectorAll('.noyau-hud-card').forEach(el => {
 // (Applying filter to body triggers full-page repaint = lag)
 
 // ── 24. Video Modal Logic (Global & Cinematic) ─────────────────
-window.openVideoModal = () => {
+window.openVideoModal = (videoUrl) => {
     const videoModal = document.getElementById('video-modal');
     const projectVideo = document.getElementById('project-video');
     if (!videoModal) return;
+
+    if (projectVideo && videoUrl) {
+        projectVideo.src = videoUrl;
+    }
 
     videoModal.classList.add('active');
     
@@ -874,7 +878,7 @@ window.openVideoModal = () => {
         { scale: 1, rotate: 0, duration: 0.6, delay: 0.4, ease: 'back.out(2)' }
     );
 
-    if (projectVideo) projectVideo.play();
+    if (projectVideo && typeof projectVideo.play === 'function') projectVideo.play();
 };
 
 window.closeVideoModal = () => {
@@ -890,8 +894,12 @@ window.closeVideoModal = () => {
     setTimeout(() => {
         videoModal.classList.remove('active');
         if (projectVideo) {
-            projectVideo.pause();
-            projectVideo.currentTime = 0;
+            const currentSrc = projectVideo.src;
+            projectVideo.src = currentSrc.replace('&autoplay=1', '');
+            if (typeof projectVideo.pause === 'function') {
+                projectVideo.pause();
+                projectVideo.currentTime = 0;
+            }
         }
     }, 400); // match duration
 };
